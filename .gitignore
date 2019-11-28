@@ -1,7 +1,7 @@
 ## Repository specific files
 
 App_Code/
-App_Data/
+*.mdf
 
 License.config
 

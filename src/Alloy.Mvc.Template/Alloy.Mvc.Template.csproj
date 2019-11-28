@@ -400,6 +400,7 @@
     <Content Include="ClientResources\Styles\LayoutIcons.css" />
     <Content Include="ClientResources\Styles\Styles.css" />
     <Content Include="favicon.ico" />
+    <Content Include="App_Data\DefaultSiteContent.episerverdata" />
     <None Include="Models\Blocks\_ReadMe.txt" />
     <None Include="Models\Pages\_ReadMe.txt" />
     <Content Include="modules\_protected\EPiServer.Search.Cms\IndexContent.aspx" />
@@ -531,7 +532,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
-    <Folder Include="App_Data\" />
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
