@@ -1,0 +1,15 @@
+$rootPath = "$env:System_DefaultWorkingDirectory\_AWahlqvist.alloy-mvc-template\DXC Deployment Package\"
+
+if (-not (Get-Module -Name EpiCloud -ListAvailable)) {
+    Install-Module EpiCloud -Scope CurrentUser -Force
+}
+
+$completeEpiDeploymentSplat = @{
+    ProjectId = "$(ProjectId)"
+    Id = "$env:DeploymentId"
+    Wait = $true
+    ClientSecret = "$(Integration.ClientSecret)"
+    ClientKey = "$(Integration.ClientKey)"
+}
+
+Complete-EpiDeployment @completeEpiDeploymentSplat
