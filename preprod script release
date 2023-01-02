@@ -1,0 +1,19 @@
+$rootPath = "$env:System_DefaultWorkingDirectory\_AWahlqvist.alloy-mvc-template\DXC Deployment Package\"
+
+if (-not (Get-Module -Name EpiCloud -ListAvailable)) {
+    Install-Module EpiCloud -Scope CurrentUser -Force
+}
+
+$getEpiDeploymentSplat = @{
+    ClientSecret = "$(Production.ClientSecret)"
+    ClientKey = "$(Production.ClientKey)"
+    ProjectId = "$(ProjectId)"
+}
+
+$deploy = Get-EpiDeployment @getEpiDeploymentSplat | Where-Object { $_.Status -eq 'AwaitingVerification' -and $_.parameters.targetEnvironment -eq 'Production' }
+
+if (-not $deploy) {
+    throw "Failed to locate a deployment to complete/reset!"
+}
+
+Write-Host "##vso[task.setvariable variable=DeploymentId;]$($deploy.id)"
