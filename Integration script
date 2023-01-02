@@ -1,0 +1,23 @@
+$rootPath = "$env:System_DefaultWorkingDirectory\_AWahlqvist.alloy-mvc-template\DXC Deployment Package\"
+
+if (-not (Get-Module -Name EpiCloud -ListAvailable)) {
+    Install-Module EpiCloud -Scope CurrentUser -Force
+}
+
+$resolvedPackagePath = Get-ChildItem -Path $rootPath -Filter *.nupkg
+
+$startEpiDeploymentSplat = @{
+    DeploymentPackage = $resolvedPackagePath.Name
+    ProjectId = "$(ProjectId)"
+    Wait = $true
+    TargetEnvironment = 'Integration'
+    UseMaintenancePage = $(UseMaintenancePage)
+    ClientSecret = "$(Integration.ClientSecret)"
+    ClientKey = "$(Integration.ClientKey)"
+}
+
+$deploy = Start-EpiDeployment @startEpiDeploymentSplat
+
+$deploy
+
+Write-Host "##vso[task.setvariable variable=DeploymentId;]$($deploy.id)"
