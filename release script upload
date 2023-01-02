@@ -1,0 +1,19 @@
+$env:PSModulePath = "C:\Modules\azurerm_6.7.0;" + $env:PSModulePath
+
+$rootPath = "$env:System_DefaultWorkingDirectory\_AWahlqvist.alloy-mvc-template\DXC Deployment Package\"
+
+if (-not (Get-Module -Name EpiCloud -ListAvailable)) {
+    Install-Module EpiCloud -Scope CurrentUser -Force
+}
+
+$resolvedPackagePath = Get-ChildItem -Path $rootPath -Filter *.nupkg
+
+$getEpiDeploymentPackageLocationSplat = @{
+    ClientKey = "$(Integration.ClientKey)"
+    ClientSecret = "$(Integration.ClientSecret)"
+    ProjectId = "$(ProjectId)"
+}
+
+$packageLocation = Get-EpiDeploymentPackageLocation @getEpiDeploymentPackageLocationSplat
+
+Add-EpiDeploymentPackage -SasUrl $packageLocation -Path $resolvedPackagePath.FullName
